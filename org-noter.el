@@ -1397,7 +1397,9 @@ want to kill."
            (notes-buffer (org-noter--session-notes-buffer session))
            (base-buffer (buffer-base-buffer notes-buffer))
            (notes-modified (buffer-modified-p base-buffer))
-           (doc-buffer (org-noter--session-doc-buffer session)))
+           (doc-buffer (org-noter--session-doc-buffer session))
+           (doc-base-buffer (buffer-base-buffer doc-buffer)))
+
 
       (dolist (window (get-buffer-window-list notes-buffer nil t))
         (with-selected-frame (window-frame window)
@@ -1417,6 +1419,7 @@ want to kill."
       (with-current-buffer doc-buffer
         (remove-hook 'kill-buffer-hook 'org-noter--handle-kill-buffer t))
       (kill-buffer doc-buffer)
+      (kill-buffer doc-base-buffer)
 
       (when (frame-live-p frame)
         (if (or (= (length (frames-on-display-list)) 1) (not org-noter-kill-frame-at-session-end))
