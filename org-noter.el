@@ -1418,7 +1418,9 @@ want to kill."
 
       (with-current-buffer doc-buffer
         (remove-hook 'kill-buffer-hook 'org-noter--handle-kill-buffer t))
+
       (kill-buffer doc-buffer)
+      (set-window-dedicated-p (get-buffer-window-list doc-base-buffer nil nil) nil)
       (kill-buffer doc-base-buffer)
 
       (when (frame-live-p frame)
